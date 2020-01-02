@@ -20,7 +20,7 @@ func CheckPrerequisites(cmd string) bool {
 }
 
 func RunBuild(indyURL, gitURL, checkoutType, checkout, buildType, buildName string) {
-	dir := GetSrc(gitURL, checkout, checkoutType)
+	dir := GetSrc(gitURL, buildName, checkout, checkoutType)
 	prjPom := path.Join(dir, "pom.xml")
 	buildMeta := decideMeta(buildType)
 	if buildMeta != nil {

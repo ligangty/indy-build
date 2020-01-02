@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.cee.redhat.com/gli/indy-build/template"
+	"github.com/ligangty/indy-build/template"
 )
 
 func prepareIndyRepos(indyURL, buildName string, buildMeta BuildMetadata) bool {

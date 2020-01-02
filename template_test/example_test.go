@@ -3,7 +3,7 @@ package template
 import (
 	"fmt"
 
-	"gitlab.cee.redhat.com/gli/indy-build/template"
+	"github.com/ligangty/indy-build/template"
 )
 
 func ExampleMvnSettingsTemplate() {

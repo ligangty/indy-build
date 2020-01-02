@@ -1,4 +1,4 @@
-module gitlab.cee.redhat.com/gli/indy-build
+module github.com/ligangty/indy-build
 
 go 1.12
 

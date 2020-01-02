@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.cee.redhat.com/gli/indy-build/process"
+	"github.com/ligangty/indy-build/process"
 )
 
-var indyURL_npm, gitURL_npm, tag_npm, branch_npm, buildName_npm string
+var indyURLNpm, gitURLNpm, tagNpm, branchNpm, buildNameNpm string
 
 var npmCmd = &cobra.Command{
 	Use:   "npm",
@@ -13,11 +13,11 @@ var npmCmd = &cobra.Command{
 	Long:  "npm build against indy, includes build, folo, promote",
 	Run: func(cmd *cobra.Command, args []string) {
 		npmArgs := &baseArgs{
-			indyURL:   indyURL_npm,
-			gitURL:    gitURL_npm,
-			tag:       tag_npm,
-			branch:    branch_npm,
-			buildName: buildName_npm,
+			indyURL:   indyURLNpm,
+			gitURL:    gitURLNpm,
+			tag:       tagNpm,
+			branch:    branchNpm,
+			buildName: buildNameNpm,
 		}
 		readyToRun := true
 		checkout, checkoutType, validC := getCheckout(npmArgs)
@@ -32,11 +32,11 @@ var npmCmd = &cobra.Command{
 }
 
 func init() {
-	npmCmd.Flags().StringVarP(&indyURL_npm, "indy_url", "i", "", "indy url.")
-	npmCmd.Flags().StringVarP(&gitURL_npm, "gitURL", "g", "", "project git.")
-	npmCmd.Flags().StringVarP(&tag_npm, "tag", "t", "", "project git tag to build")
-	npmCmd.Flags().StringVarP(&branch_npm, "branch", "b", "", "project git branch to build.")
-	npmCmd.Flags().StringVarP(&buildName_npm, "buildName", "n", "", "build name.")
+	npmCmd.Flags().StringVarP(&indyURLNpm, "indy_url", "i", "", "indy url.")
+	npmCmd.Flags().StringVarP(&gitURLNpm, "gitURL", "g", "", "project git.")
+	npmCmd.Flags().StringVarP(&tagNpm, "tag", "t", "", "project git tag to build")
+	npmCmd.Flags().StringVarP(&branchNpm, "branch", "b", "", "project git branch to build.")
+	npmCmd.Flags().StringVarP(&buildNameNpm, "buildName", "n", "", "build name.")
 
 	npmCmd.MarkFlagRequired("indy_url")
 	npmCmd.MarkFlagRequired("buildName")

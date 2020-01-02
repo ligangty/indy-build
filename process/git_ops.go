@@ -21,8 +21,8 @@ func getGitDir(gitURL string) string {
 	return last
 }
 
-func GetSrc(gitURL, checkout, checkoutType string) string {
-	dir := fmt.Sprintf("%s/%s", getTempDir(), getGitDir(gitURL))
+func GetSrc(gitURL, buildName, checkout, checkoutType string) string {
+	dir := fmt.Sprintf("%s/%s/%s", getTempDir(), buildName, getGitDir(gitURL))
 	return goGit(gitURL, dir, checkout, checkoutType)
 }
 

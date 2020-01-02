@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gitlab.cee.redhat.com/gli/indy-build/cmd"
+	"github.com/ligangty/indy-build/cmd"
 )
 
 func main() {

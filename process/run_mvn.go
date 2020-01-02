@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"gitlab.cee.redhat.com/gli/indy-build/template"
+	"github.com/ligangty/indy-build/template"
 )
 
 func runMvnBuild(indyURL, prjPom, buildName string) {

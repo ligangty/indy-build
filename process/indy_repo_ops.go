@@ -142,7 +142,6 @@ func getIndyFolo(indyURL, foloId string) ([]string, bool) {
 	paths := make([]string, 0)
 	for _, upd := range upds {
 		if len(strings.TrimSpace(upd.Path)) > 0 {
-			fmt.Printf("Adding path: %s\n", upd.Path)
 			paths = append(paths, upd.Path)
 		}
 	}

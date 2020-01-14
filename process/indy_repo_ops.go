@@ -137,10 +137,12 @@ func getIndyFolo(indyURL, foloId string) ([]string, bool) {
 		fmt.Printf("Get folo tracking failed: %s, Reason: %s \n", foloId, err)
 		return nil, false
 	}
+
 	upds := trackingContent.Uploads
-	paths := make([]string, len(upds))
-	for _, upd := range trackingContent.Uploads {
-		if strings.TrimSpace(upd.Path) != "" {
+	paths := make([]string, 0)
+	for _, upd := range upds {
+		if len(strings.TrimSpace(upd.Path)) > 0 {
+			fmt.Printf("Adding path: %s\n", upd.Path)
 			paths = append(paths, upd.Path)
 		}
 	}

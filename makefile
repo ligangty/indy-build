@@ -11,15 +11,13 @@ BINARY_UNIX=$(BINARY_NAME)_unix
 
 build: 
 		$(GOBUILD) -trimpath -o $(BINARY_NAME) -v ./cmd/indy-build
+.PHONY: build
 
 test: 
 		$(GOTEST) -v ./...
+.PHONY: test
 
 clean: 
 		$(GOCLEAN) ./...
 		rm -rf $(BUILD_DIR)
-
-
-# Cross compilation
-build-linux:
-		CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_UNIX) -v
+.PHONY: clean

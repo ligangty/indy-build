@@ -9,20 +9,14 @@ BUILD_DIR=./build
 BINARY_NAME=$(BUILD_DIR)/indy-build
 BINARY_UNIX=$(BINARY_NAME)_unix
 
-all: test build
-deps:
-		$(GOGET) github.com/stretchr/testify
-		$(GOGET) github.com/manifoldco/promptui
-		$(GOGET) github.com/dustin/go-humanize
-		$(GOGET) github.com/spf13/cobra/cobra
-		$(GOGETU) golang.org/x/net/proxy
-		$(GOGET) gopkg.in/src-d/go-git.v4
 build: 
-		$(GOBUILD) -o $(BINARY_NAME) -v
+		$(GOBUILD) -trimpath -o $(BINARY_NAME) -v ./cmd/indy-build
+
 test: 
 		$(GOTEST) -v ./...
+
 clean: 
-		$(GOCLEAN)
+		$(GOCLEAN) ./...
 		rm -rf $(BUILD_DIR)
 
 

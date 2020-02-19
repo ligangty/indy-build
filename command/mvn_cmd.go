@@ -1,8 +1,8 @@
-package cmd
+package command
 
 import (
-	"github.com/spf13/cobra"
 	"github.com/ligangty/indy-build/process"
+	"github.com/spf13/cobra"
 )
 
 var indyURLMvn, gitURLMvn, tagMvn, branchMvn, buildNameMvn string

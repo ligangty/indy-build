@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/ligangty/indy-build/http"
 	"github.com/ligangty/indy-build/template"
 )
 
@@ -23,7 +24,7 @@ func preapareIndyTargetHosted(indyURL string, buildMeta BuildMetadata) bool {
 	buildType, target := buildMeta.buildType, buildMeta.promoteTarget
 
 	URL := fmt.Sprintf("%s/api/admin/stores/%s/hosted/%s", indyURL, buildType, target)
-	_, result := getRequest(URL)
+	_, result := http.GetRequest(URL)
 	if result {
 		fmt.Printf("Target hosted %s already exists, will bypass creation\n\n", target)
 		return result
@@ -37,7 +38,7 @@ func preapareIndyTargetHosted(indyURL string, buildMeta BuildMetadata) bool {
 
 	hosted := template.IndyHostedTemplate(&hostedVars)
 	fmt.Printf("Start creating hosted repo %s\n", target)
-	result = putRequest(URL, strings.NewReader(hosted))
+	result = http.PutRequest(URL, strings.NewReader(hosted))
 	if result {
 		fmt.Printf("Hosted repo %s created successfully, check %s for details\n", target, URL)
 	} else {
@@ -57,7 +58,7 @@ func prepareIndyHosted(indyURL, buildType, buildName string) bool {
 
 	hosted := template.IndyHostedTemplate(&hostedVars)
 	fmt.Printf("Start creating hosted repo %s\n", buildName)
-	result := putRequest(URL, strings.NewReader(hosted))
+	result := http.PutRequest(URL, strings.NewReader(hosted))
 	if result {
 		fmt.Printf("Hosted repo %s created successfully, check %s for details\n", buildName, URL)
 	} else {
@@ -78,7 +79,7 @@ func prepareIndyGroup(indyURL, buildName string, buildMeta BuildMetadata) bool {
 	URL := fmt.Sprintf("%s/api/admin/stores/%s/group/%s", indyURL, buildType, buildName)
 
 	fmt.Printf("Start creating group repo %s\n", buildName)
-	result := putRequest(URL, strings.NewReader(group))
+	result := http.PutRequest(URL, strings.NewReader(group))
 	if result {
 		fmt.Printf("Group repo %s created successfully, check %s for details\n", buildName, URL)
 	} else {
@@ -95,7 +96,7 @@ func destroyIndyRepos(indyURL, buildType, buildName string) {
 func destroyIndyHosted(indyURL, buildType, buildName string) {
 	URL := fmt.Sprintf("%s/api/admin/stores/%s/hosted/%s", indyURL, buildType, buildName)
 	fmt.Printf("Start deleting hosted repo %s\n", buildName)
-	result := delRequest(URL)
+	result := http.DelRequest(URL)
 	if result {
 		fmt.Printf("Hosted repo %s deleted successfully\n", buildName)
 	}
@@ -104,7 +105,7 @@ func destroyIndyHosted(indyURL, buildType, buildName string) {
 func destroyIndyGroup(indyURL, buildType, buildName string) {
 	URL := fmt.Sprintf("%s/api/admin/stores/%s/group/%s", indyURL, buildType, buildName)
 	fmt.Printf("Start deleting group repo %s\n", buildName)
-	result := delRequest(URL)
+	result := http.DelRequest(URL)
 	if result {
 		fmt.Printf("Group repo %s deleted successfully\n", buildName)
 	}
@@ -113,7 +114,7 @@ func destroyIndyGroup(indyURL, buildType, buildName string) {
 func sealIndyFolo(indyURL, foloId string) bool {
 	URL := fmt.Sprintf("%s/api/folo/admin/%s/record", indyURL, foloId)
 	fmt.Printf("Start to seal folo tracking: %s\n", foloId)
-	_, result := postRequest(URL, nil)
+	_, result := http.PostRequest(URL, nil)
 	if result {
 		fmt.Printf("Folo tracking sealing done: %s\n", foloId)
 	} else {
@@ -126,7 +127,7 @@ func sealIndyFolo(indyURL, foloId string) bool {
 func getIndyFolo(indyURL, foloId string) ([]string, bool) {
 	URL := fmt.Sprintf("%s/api/folo/admin/%s/record", indyURL, foloId)
 	fmt.Printf("Start to get folo tracking: %s\n", foloId)
-	data, result := getRequest(URL)
+	data, result := http.GetRequest(URL)
 	if !result {
 		fmt.Printf("Get folo tracking failed: %s\n", foloId)
 		return nil, false
@@ -159,7 +160,7 @@ func promote(indyURL, source, target string, paths []string) {
 	URL := fmt.Sprintf("%s/api/promotion/paths/promote", indyURL)
 
 	fmt.Printf("Start promote request:\n %s\n\n", promote)
-	respText, result := postRequest(URL, strings.NewReader(promote))
+	respText, result := http.PostRequest(URL, strings.NewReader(promote))
 
 	if result {
 		fmt.Printf("Promote Done. Result is:\n %s\n\n", respText)

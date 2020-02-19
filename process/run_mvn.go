@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/ligangty/indy-build/file"
 	"github.com/ligangty/indy-build/template"
 )
 
@@ -61,7 +62,7 @@ func prepareMvnSettings(IndyURL, localRepo, buildName string) string {
 	}
 	settingsFile := fmt.Sprintf("%s/settings-%s.xml", tmp, buildName)
 
-	storeFile(settingsFile, settings)
+	file.StoreFile(settingsFile, settings)
 
 	fmt.Printf("settings generated: %s\n\n", settingsFile)
 	fmt.Printf("settings content: %s\n\n", settings)

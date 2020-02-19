@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os/exec"
 	"path"
+
+	"github.com/ligangty/indy-build/git"
 )
 
 func checkCmd(cmd string) bool {
@@ -20,7 +22,7 @@ func CheckPrerequisites(cmd string) bool {
 }
 
 func RunBuild(indyURL, gitURL, checkoutType, checkout, buildType, buildName string) {
-	dir := GetSrc(gitURL, buildName, checkout, checkoutType)
+	dir := git.GetSrc(gitURL, buildName, checkout, checkoutType)
 	prjPom := path.Join(dir, "pom.xml")
 	buildMeta := decideMeta(buildType)
 	if buildMeta != nil {
@@ -42,5 +44,5 @@ func RunBuild(indyURL, gitURL, checkoutType, checkout, buildType, buildName stri
 
 	}
 
-	rmRepo(dir)
+	git.RmRepo(dir)
 }

@@ -1,4 +1,4 @@
-package process
+package git
 
 import (
 	"fmt"
@@ -9,6 +9,8 @@ import (
 	"gopkg.in/src-d/go-git.v4"
 	"gopkg.in/src-d/go-git.v4/config"
 	"gopkg.in/src-d/go-git.v4/plumbing"
+
+	"github.com/ligangty/indy-build/file"
 )
 
 func getGitDir(gitURL string) string {
@@ -22,13 +24,13 @@ func getGitDir(gitURL string) string {
 }
 
 func GetSrc(gitURL, buildName, checkout, checkoutType string) string {
-	dir := fmt.Sprintf("%s/%s/%s", getTempDir(), buildName, getGitDir(gitURL))
+	dir := fmt.Sprintf("%s/%s/%s", file.GetTempDir(), buildName, getGitDir(gitURL))
 	return goGit(gitURL, dir, checkout, checkoutType)
 }
 
 func goGit(gitURL, directory, checkout, checkoutType string) string {
 	clone := true
-	if fileExists(directory) {
+	if file.FileExists(directory) {
 		clone = false
 	}
 
@@ -124,7 +126,7 @@ func checkIfError(err error) {
 	}
 }
 
-func rmRepo(repoDir string) {
+func RmRepo(repoDir string) {
 	fmt.Printf("Cleaning repo dir %s\n", repoDir)
 	os.RemoveAll(repoDir)
 }

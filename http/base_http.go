@@ -1,4 +1,4 @@
-package process
+package http
 
 import (
 	"fmt"
@@ -8,20 +8,20 @@ import (
 	"net/http"
 )
 
-func getRequest(url string) (string, bool) {
+func GetRequest(url string) (string, bool) {
 	return httpRequest(url, http.MethodGet, true, nil)
 }
 
-func postRequest(url string, data io.Reader) (string, bool) {
+func PostRequest(url string, data io.Reader) (string, bool) {
 	return httpRequest(url, http.MethodPost, true, data)
 }
 
-func putRequest(url string, data io.Reader) bool {
+func PutRequest(url string, data io.Reader) bool {
 	_, result := httpRequest(url, http.MethodPut, false, data)
 	return result
 }
 
-func delRequest(url string) bool {
+func DelRequest(url string) bool {
 	_, result := httpRequest(url, http.MethodDelete, false, nil)
 	return result
 }

@@ -1,11 +1,11 @@
-package process
+package file
 
 import (
 	"os"
 	"strings"
 )
 
-func getTempDir() string {
+func GetTempDir() string {
 	temp := os.Getenv("TMPDIR")
 	if strings.TrimSpace(temp) == "" {
 		temp = "/tmp"
@@ -13,8 +13,8 @@ func getTempDir() string {
 	return temp
 }
 
-func storeFile(fileName string, content string) {
-	exists := fileExists(fileName)
+func StoreFile(fileName string, content string) {
+	exists := FileExists(fileName)
 
 	var f *os.File
 	var err error
@@ -33,7 +33,7 @@ func storeFile(fileName string, content string) {
 	defer f.Close()
 }
 
-func fileExists(name string) bool {
+func FileExists(name string) bool {
 	if _, err := os.Stat(name); err != nil {
 		if os.IsNotExist(err) {
 			return false

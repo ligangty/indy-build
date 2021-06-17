@@ -10,14 +10,13 @@ import (
 )
 
 func prepareIndyRepos(indyURL, buildName string, buildMeta BuildMetadata) bool {
-	if preapareIndyTargetHosted(indyURL, buildMeta) {
-		if prepareIndyHosted(indyURL, buildMeta.buildType, buildName) {
-			if prepareIndyGroup(indyURL, buildName, buildMeta) {
-				return true
-			}
-		}
+	if !preapareIndyTargetHosted(indyURL, buildMeta) {
+		return false
 	}
-	return false
+	if !prepareIndyHosted(indyURL, buildMeta.buildType, buildName) {
+		return false
+	}
+	return prepareIndyGroup(indyURL, buildName, buildMeta)
 }
 
 func preapareIndyTargetHosted(indyURL string, buildMeta BuildMetadata) bool {
@@ -117,11 +116,10 @@ func sealIndyFolo(indyURL, foloId string) bool {
 	_, result := http.PostRequest(URL, nil)
 	if result {
 		fmt.Printf("Folo tracking sealing done: %s\n", foloId)
-	} else {
-		fmt.Printf("Folo tracking sealing failed: %s\n", foloId)
-		return false
+		return true
 	}
-	return true
+	fmt.Printf("Folo tracking sealing failed: %s\n", foloId)
+	return false
 }
 
 func getIndyFolo(indyURL, foloId string) ([]string, bool) {

@@ -25,24 +25,25 @@ func RunBuild(indyURL, gitURL, checkoutType, checkout, buildType, buildName stri
 	dir := git.GetSrc(gitURL, buildName, checkout, checkoutType)
 	prjPom := path.Join(dir, "pom.xml")
 	buildMeta := decideMeta(buildType)
-	if buildMeta != nil {
-		if prepareIndyRepos(indyURL, buildName, *buildMeta) {
-			if buildType == TYPE_MVN {
-				runMvnBuild(indyURL, prjPom, buildName)
-			} else if buildType == TYPE_NPM {
-				runNpmBuild(indyURL, buildName)
-			}
-			sealed := sealIndyFolo(indyURL, buildName)
-			if sealed {
-				paths, done := getIndyFolo(indyURL, buildName)
-				if done {
-					promote(indyURL, fmt.Sprintf("%s:hosted:%s", buildType, buildName), fmt.Sprintf("%s:hosted:%s", buildType, buildMeta.promoteTarget), paths)
-				}
-			}
-			destroyIndyRepos(indyURL, buildType, buildName)
-		}
-
+	if buildMeta == nil {
+		return
 	}
+	if !prepareIndyRepos(indyURL, buildName, *buildMeta) {
+		return
+	}
+	if buildType == TYPE_MVN {
+		runMvnBuild(indyURL, prjPom, buildName)
+	} else if buildType == TYPE_NPM {
+		runNpmBuild(indyURL, buildName)
+	}
+	sealed := sealIndyFolo(indyURL, buildName)
+	if sealed {
+		paths, done := getIndyFolo(indyURL, buildName)
+		if done {
+			promote(indyURL, fmt.Sprintf("%s:hosted:%s", buildType, buildName), fmt.Sprintf("%s:hosted:%s", buildType, buildMeta.promoteTarget), paths)
+		}
+	}
+	destroyIndyRepos(indyURL, buildType, buildName)
 
 	git.RmRepo(dir)
 }
